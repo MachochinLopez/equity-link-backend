@@ -123,4 +123,13 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Default Pagination Per Page
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the default number of items to show per page.
+    |
+    */
+    'pagination_per_page' => 15,
 ];

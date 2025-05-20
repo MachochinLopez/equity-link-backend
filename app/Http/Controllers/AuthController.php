@@ -22,15 +22,15 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
- 
+
         if (Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Inicio de sesión exitoso',
                 'user' => $request->user(),
                 'token' => $request->user()->createToken('auth-token')->plainTextToken,
             ]);
-        } 
-        
+        }
+
         return response()->json([
             'message' => 'Las credenciales proporcionadas son incorrectas.',
         ], 401);

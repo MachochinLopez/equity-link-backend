@@ -37,7 +37,7 @@ class RoleSeeder extends Seeder
             'edit-users',
             'delete-users',
             'show-user',
-    
+
             // Role management
             'add-roles-to-users',
             'remove-roles-from-users',
@@ -46,7 +46,7 @@ class RoleSeeder extends Seeder
             'edit-roles',
             'delete-roles',
             'show-role',
-    
+
             // Permission management
             'list-permissions',
             'create-permissions',
@@ -68,7 +68,7 @@ class RoleSeeder extends Seeder
         $commonPermissions = [
             'view-dashboard',
             'view-profile',
-    
+
             // Invoices
             'view-invoices',
             'list-invoices',
