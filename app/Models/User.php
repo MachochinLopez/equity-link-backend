@@ -33,6 +33,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'permissions',
+        'roles',
     ];
 
     /**
@@ -46,5 +48,36 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /*****************************
+     *** Additional attributes ***
+     *****************************/
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<string>
+     */
+    protected $appends = ['role_names', 'permission_names'];
+
+    /**
+     * Get the user's role names.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getRoleNamesAttribute()
+    {
+        return $this->roles->pluck('name');
+    }
+
+    /**
+     * Get the user's permission names.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getPermissionNamesAttribute()
+    {
+        return $this->getAllPermissions()->pluck('name');
     }
 }

@@ -16,9 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::with('roles')->simplePaginate(
-            config('app.pagination_per_page')
-        );
+        return User::simplePaginate(config('app.pagination_per_page'));
     }
 
     /**
@@ -33,6 +31,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'role' => 'required|string|exists:roles,name',
+            'extra_permissions' => 'sometimes|array',
+            'extra_permissions.*' => 'exists:permissions,name'
         ]);
 
         $tempPassword = Str::random(12);
@@ -45,10 +45,14 @@ class UserController extends Controller
 
         $user->assignRole($validated['role']);
 
+        // If extra permissions are provided, sync them directly
+        if (isset($validated['extra_permissions'])) {
+            $user->syncPermissions($validated['extra_permissions']);
+        }
+
         return response()->json([
             'message' => 'User created successfully',
-            'user' => $user,
-            'temporary_password' => $tempPassword,
+            'user' => $user->load(['roles', 'permissions']),
         ], 201);
     }
 
@@ -60,7 +64,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $user->load('roles');
+        return response()->json([
+            'user' => $user->load(['roles', 'permissions']),
+        ]);
     }
 
     /**
@@ -76,6 +82,8 @@ class UserController extends Controller
             'name' => 'sometimes|string|max:255',
             'email' => 'sometimes|string|email|max:255|unique:users,email,' . $user->id,
             'role' => 'sometimes|string|exists:roles,name',
+            'extra_permissions' => 'sometimes|array',
+            'extra_permissions.*' => 'exists:permissions,name'
         ]);
 
         $user->update($validated);
@@ -84,9 +92,14 @@ class UserController extends Controller
             $user->syncRoles([$validated['role']]);
         }
 
+        // If extra permissions are provided, sync them directly
+        if (isset($validated['extra_permissions'])) {
+            $user->syncPermissions($validated['extra_permissions']);
+        }
+
         return response()->json([
             'message' => 'User updated successfully',
-            'user' => $user->load('roles'),
+            'user' => $user->load(['roles', 'permissions']),
         ]);
     }
 
