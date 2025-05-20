@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
-use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -17,14 +15,13 @@ class AuthController extends Controller
         ]);
  
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
- 
             return response()->json([
+                'message' => 'Inicio de sesión exitoso',
+                'user' => $request->user(),
                 'token' => $request->user()->createToken('auth-token')->plainTextToken,
-                'user' => $request->user()
             ]);
-        }
- 
+        } 
+        
         return response()->json([
             'message' => 'Las credenciales proporcionadas son incorrectas.',
         ], 401);
