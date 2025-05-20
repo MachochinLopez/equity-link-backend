@@ -7,6 +7,15 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    /**
+     * Login a user.
+     * 
+     * On success, returns a JSON response with the user and a token.
+     * On failure, returns a JSON response with an error message.
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -27,6 +36,12 @@ class AuthController extends Controller
         ], 401);
     }
 
+    /**
+     * Logout a user.
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
