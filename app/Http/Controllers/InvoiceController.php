@@ -99,6 +99,21 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Delete an invoice.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Invoice $invoice)
+    {
+        $invoice->delete();
+
+        return response()->json([
+            'message' => 'Factura eliminada correctamente'
+        ], 200);
+    }
+
+    /**
      * Get exchange rate from DOF API.
      *
      * @return float|null
