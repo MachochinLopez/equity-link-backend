@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::simplePaginate(config('app.pagination_per_page'));
+        return User::orderBy('name')->simplePaginate(config('app.pagination_per_page'));
     }
 
     /**
@@ -52,21 +52,19 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'User created successfully',
-            'user' => $user->load(['roles', 'permissions']),
+            'user' => $user,
         ], 201);
     }
 
     /**
-     * Return user's data with their roles.
+     * Return user's data with their roles and permissions.
      *
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
     {
-        return response()->json([
-            'user' => $user->load(['roles', 'permissions']),
-        ]);
+        return $user;
     }
 
     /**
@@ -99,7 +97,7 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'User updated successfully',
-            'user' => $user->load(['roles', 'permissions']),
+            'user' => $user,
         ]);
     }
 

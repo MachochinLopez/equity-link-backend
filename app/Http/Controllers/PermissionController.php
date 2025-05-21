@@ -3,19 +3,97 @@
 namespace App\Http\Controllers;
 
 use Spatie\Permission\Models\Permission;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
     /**
-     * Get all available permissions.
+     * Display a list of permissions.
      *
-     * @return JsonResponse
+     * @return \Illuminate\Http\Response
      */
-    public function index(): JsonResponse
+    public function index()
     {
+        return Permission::select('id', 'name')->orderBy('name')
+            ->simplePaginate(config('app.pagination_per_page'));
+    }
+
+    /**
+     * Create a new permission.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:permissions,name'
+        ]);
+
+        $permission = Permission::create([
+            'name' => $validated['name'],
+            'guard_name' => 'web'
+        ]);
+
         return response()->json([
-            'permissions' => Permission::all()->pluck('name')
+            'message' => 'Permission created successfully',
+            'permission' => [
+                'id' => $permission->id,
+                'name' => $permission->name
+            ]
+        ], 201);
+    }
+
+    /**
+     * Return permission's data.
+     *
+     * @param  \Spatie\Permission\Models\Permission  $permission
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Permission $permission)
+    {
+        return $permission;
+    }
+
+    /**
+     * Update the permission's data.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Spatie\Permission\Models\Permission  $permission
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Permission $permission)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:permissions,name,' . $permission->id
+        ]);
+
+        $permission->update([
+            'name' => $validated['name'],
+            'guard_name' => 'web'
+        ]);
+
+        return response()->json([
+            'message' => 'Permission updated successfully',
+            'permission' => [
+                'id' => $permission->id,
+                'name' => $permission->name
+            ]
         ]);
     }
-} 
+
+    /**
+     * Delete the permission.
+     *
+     * @param  \Spatie\Permission\Models\Permission  $permission
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Permission $permission)
+    {
+        $permission->delete();
+
+        return response()->json([
+            'message' => 'Permission deleted successfully'
+        ]);
+    }
+}

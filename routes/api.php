@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
 
 /*********************
  *** Public routes ***
@@ -30,5 +31,34 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'update' => 'permission:edit-users',
             'destroy' => 'permission:delete-users',
             'show' => 'permission:show-user'
+        ]);
+
+    /*******************
+     *** Role Routes ***
+     *******************/
+
+    Route::apiResource('roles', RoleController::class)
+        ->middleware([
+            'index' => 'permission:list-roles',
+            'store' => 'permission:create-roles',
+            'update' => 'permission:edit-roles',
+            'destroy' => 'permission:delete-roles',
+            'show' => 'permission:show-role'
+        ]);
+
+    Route::get('roles-and-permissions', [RoleController::class, 'rolesAndPermissions'])
+        ->middleware(['permission:list-roles', 'permission:list-permissions']);
+
+    /**************************
+     *** Permission Routes ***
+     **************************/
+
+    Route::apiResource('permissions', PermissionController::class)
+        ->middleware([
+            'index' => 'permission:list-permissions',
+            'store' => 'permission:create-permissions',
+            'update' => 'permission:edit-permissions',
+            'destroy' => 'permission:delete-permissions',
+            'show' => 'permission:show-permission'
         ]);
 });
