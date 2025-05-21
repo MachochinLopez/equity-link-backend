@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RoleController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 
 /*********************
  *** Public routes ***
@@ -60,5 +61,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'update' => 'permission:edit-permissions',
             'destroy' => 'permission:delete-permissions',
             'show' => 'permission:show-permission'
+        ]);
+
+    /**********************
+     *** Invoice Routes ***
+     **********************/
+
+    Route::apiResource('invoices', InvoiceController::class)
+        ->middleware([
+            'index' => 'permission:list-invoices',
+            'store' => 'permission:create-invoices',
+            'show' => 'permission:show-invoice'
         ]);
 });
