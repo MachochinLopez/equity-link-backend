@@ -53,7 +53,7 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Usuario creado correctamente',
             'user' => $user,
-            'tempPassword' => $tempPassword
+            'temporary_password' => $tempPassword
         ], 201);
     }
 
