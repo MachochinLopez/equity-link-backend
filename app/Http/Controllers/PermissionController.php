@@ -36,7 +36,7 @@ class PermissionController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Permission created successfully',
+            'message' => 'Permiso creado correctamente',
             'permission' => [
                 'id' => $permission->id,
                 'name' => $permission->name
@@ -74,7 +74,7 @@ class PermissionController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Permission updated successfully',
+            'message' => 'Permiso actualizado correctamente',
             'permission' => [
                 'id' => $permission->id,
                 'name' => $permission->name
@@ -93,7 +93,7 @@ class PermissionController extends Controller
         $permission->delete();
 
         return response()->json([
-            'message' => 'Permission deleted successfully'
+            'message' => 'Permiso eliminado correctamente'
         ]);
     }
 }

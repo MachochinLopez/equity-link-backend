@@ -70,7 +70,7 @@ class RoleController extends Controller
         $role->permissions = explode(',', $role->permissions);
 
         return response()->json([
-            'message' => 'Role created successfully',
+            'message' => 'Rol creado correctamente',
             'role' => $role
         ], 201);
     }
@@ -131,7 +131,7 @@ class RoleController extends Controller
         $role->permissions = explode(',', $role->permissions);
 
         return response()->json([
-            'message' => 'Role updated successfully',
+            'message' => 'Rol actualizado correctamente',
             'role' => $role
         ]);
     }
@@ -147,7 +147,7 @@ class RoleController extends Controller
         $role->delete();
 
         return response()->json([
-            'message' => 'Role deleted successfully'
+            'message' => 'Rol eliminado correctamente'
         ]);
     }
 }
