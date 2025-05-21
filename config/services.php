@@ -35,4 +35,7 @@ return [
         ],
     ],
 
+    'dof' => [
+        'token' => env('DOF_TOKEN'),
+    ],
 ];

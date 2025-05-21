@@ -69,8 +69,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::apiResource('invoices', InvoiceController::class)
         ->middleware([
-            'index' => 'permission:list-invoices',
-            'store' => 'permission:create-invoices',
+            'index' => 'permission:view-invoices',
+            'store' => 'permission:upload-invoices',
             'show' => 'permission:show-invoice'
         ]);
 });
