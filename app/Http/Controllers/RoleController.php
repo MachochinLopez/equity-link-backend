@@ -38,7 +38,7 @@ class RoleController extends Controller
             return $role;
         });
 
-        return response()->json(['roles' => $roles]);
+        return $roles;
     }
 
     /**

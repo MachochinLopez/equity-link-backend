@@ -39,8 +39,6 @@ class RoleSeeder extends Seeder
             'show-user',
 
             // Role management
-            'add-roles-to-users',
-            'remove-roles-from-users',
             'list-roles',
             'create-roles',
             'edit-roles',
